@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CeleryAPI">
-      <HintPath>D:\me\C#\Killsec\Xero-Injector-master\bin\Debug\CeleryAPI.dll</HintPath>
+    <Reference Include="CeleryAPI %281%29">
+      <HintPath>..\..\..\..\..\..\Downloads\CeleryAPI (1).dll</HintPath>
     </Reference>
     <Reference Include="FastColoredTextBox">
       <HintPath>D:\me\C#\Killsec\Xero-Injector-master\bin\Debug\FastColoredTextBox.dll</HintPath>

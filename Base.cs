@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CeleryAPI;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using _BF = CeleryAPI.ByfronPlayer;
 
@@ -40,8 +42,10 @@ namespace Zenith
         }
 
         #region Inject&Execute
-        private void InjectBtn(object sender, EventArgs e)
+        private async Task InjectBtnAsync(object sender, EventArgs e)
         {
+            _BF.StartFileSystemAPI();
+            await Task.Delay(1000);
             _BF.Inject();
         }
 
