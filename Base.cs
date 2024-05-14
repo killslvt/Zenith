@@ -18,6 +18,7 @@ namespace Zenith
      * If There are any errors please join the discord and let me know
      * Zenith Discord: https://discord.gg/pMAsDK4Z9d
     */
+
     public partial class Base : Form
     {
         Point lastPoint;
@@ -42,7 +43,7 @@ namespace Zenith
         }
 
         #region Inject&Execute
-        private async Task InjectBtnAsync(object sender, EventArgs e)
+        private async void InjectBtnAsync(object sender, EventArgs e)
         {
             _BF.StartFileSystemAPI();
             await Task.Delay(1000);
