@@ -45,6 +45,11 @@ namespace Zenith
         #region Inject&Execute
         private async void InjectBtnAsync(object sender, EventArgs e)
         {
+            await PerformInjectionAsync();
+        }
+
+        private async Task PerformInjectionAsync()
+        {
             _BF.StartFileSystemAPI();
             await Task.Delay(1000);
             _BF.Inject();
