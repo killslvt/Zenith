@@ -17,6 +17,25 @@ namespace Zenith
         public Base()
         {
             InitializeComponent();
+
+            string userName = Environment.UserName;
+            string folderPath = $@"C:\Users\{userName}\AppData\Local\Temp\celery";
+
+            try
+            {
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                else
+                {
+                    MessageBox.Show($"Error: Folder celery not found in C:\\Users\\{userName}\\AppData\\Local\\Temp\\celery");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error creating folder: {ex.Message}");
+            }
         }
 
         #region Inject&Execute
