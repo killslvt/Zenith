@@ -12,8 +12,9 @@ namespace Zenith
      * This is just a base for the injector (Zenith is a name made by ilycross)
      * Make sure to use your own name for it
      * The injector uses Celery API, It work but not well
-     * Zenith Discord: https://discord.gg/pMAsDK4Z9d
      * I wont update this much btw
+     * If There are any errors please join the discord and let me know
+     * Zenith Discord: https://discord.gg/pMAsDK4Z9d
     */
     public partial class Base : Form
     {
