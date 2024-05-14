@@ -85,5 +85,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Missing Refs\CeleryAPI.dll" />
+    <Content Include="Missing Refs\FastColoredTextBox.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
