@@ -129,6 +129,7 @@
             this.button2.TabIndex = 4;
             this.button2.Text = "X";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button4
             // 
@@ -143,6 +144,7 @@
             this.button4.TabIndex = 5;
             this.button4.Text = "M";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button5
             // 
@@ -189,7 +191,7 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Black;
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(137, 22);
+            this.label2.Location = new System.Drawing.Point(132, 20);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(28, 13);
             this.label2.TabIndex = 9;
@@ -201,6 +203,8 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(558, 50);
             this.panel1.TabIndex = 10;
+            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
             // 
             // panel2
             // 

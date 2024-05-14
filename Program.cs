@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,7 +18,30 @@ namespace Zenith
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            CeleryFix(); //For the (cant find myfile) error
             Application.Run(new Base());
+        }
+
+        static void CeleryFix()
+        {
+            string userName = Environment.UserName;
+            string folderPath = $@"C:\Users\{userName}\AppData\Local\Temp\celery";
+
+            try
+            {
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                else
+                {
+                    MessageBox.Show($"Error: Folder celery not found in C:\\Users\\{userName}\\AppData\\Local\\Temp\\celery");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error creating folder: {ex.Message}");
+            }
         }
     }
 }

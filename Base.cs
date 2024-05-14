@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using _BF = CeleryAPI.ByfronPlayer;
 
@@ -14,28 +17,25 @@ namespace Zenith
     */
     public partial class Base : Form
     {
+        Point lastPoint;
+
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+           int nLeftRect,
+           int nTopRect,
+           int nRightRect,
+           int nBottomRect,
+           int nWidthEllipse,
+           int nHeightEllipse
+        );
+
         public Base()
         {
             InitializeComponent();
-
-            string userName = Environment.UserName;
-            string folderPath = $@"C:\Users\{userName}\AppData\Local\Temp\celery";
-
-            try
-            {
-                if (!Directory.Exists(folderPath))
-                {
-                    Directory.CreateDirectory(folderPath);
-                }
-                else
-                {
-                    MessageBox.Show($"Error: Folder celery not found in C:\\Users\\{userName}\\AppData\\Local\\Temp\\celery");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error creating folder: {ex.Message}");
-            }
+            FormBorderStyle = FormBorderStyle.None;
+            Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
 
         #region Inject&Execute
@@ -51,6 +51,7 @@ namespace Zenith
 
         #endregion
 
+        #region Ect
         private void ClearBtn(object sender, EventArgs e)
         {
             fastColoredTextBox1.Clear();
@@ -69,5 +70,30 @@ namespace Zenith
                 fastColoredTextBox1.Text = File.ReadAllText(openFileDialog1.FileName);
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Process.GetCurrentProcess().Kill();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            lastPoint = new Point(e.X, e.Y);
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Left += e.X - lastPoint.X;
+                Top += e.Y - lastPoint.Y;
+            }
+        }
+        #endregion
     }
 }
