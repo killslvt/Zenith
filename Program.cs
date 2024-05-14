@@ -33,10 +33,6 @@ namespace Zenith
                 {
                     Directory.CreateDirectory(folderPath);
                 }
-                else
-                {
-                    MessageBox.Show($"Error: Folder celery not found in C:\\Users\\{userName}\\AppData\\Local\\Temp\\celery");
-                }
             }
             catch (Exception ex)
             {
