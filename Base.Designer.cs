@@ -195,9 +195,9 @@
             this.label2.ForeColor = System.Drawing.Color.Red;
             this.label2.Location = new System.Drawing.Point(132, 20);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(28, 13);
+            this.label2.Size = new System.Drawing.Size(37, 13);
             this.label2.TabIndex = 9;
-            this.label2.Text = "v1.0";
+            this.label2.Text = "v1.0.1";
             // 
             // panel1
             // 
