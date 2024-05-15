@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CeleryAPI %281%29">
-      <HintPath>..\..\..\..\..\..\Downloads\CeleryAPI (1).dll</HintPath>
-    </Reference>
     <Reference Include="FastColoredTextBox">
       <HintPath>D:\me\C#\Killsec\Xero-Injector-master\bin\Debug\FastColoredTextBox.dll</HintPath>
     </Reference>
@@ -58,8 +55,14 @@
     <Compile Include="Base.Designer.cs">
       <DependentUpon>Base.cs</DependentUpon>
     </Compile>
+    <Compile Include="Imports.cs" />
+    <Compile Include="Injector\InjectionStatus.cs" />
+    <Compile Include="Injector\MapInject.cs" />
+    <Compile Include="Injector\MSPlayer.cs" />
+    <Compile Include="Injector\WindowsPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util.cs" />
     <EmbeddedResource Include="Base.resx">
       <DependentUpon>Base.cs</DependentUpon>
     </EmbeddedResource>

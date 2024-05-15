@@ -1,12 +1,12 @@
-﻿using CeleryAPI;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using _BF = CeleryAPI.ByfronPlayer;
+using Zenith.Injector;
 
 namespace Zenith
 {
@@ -43,21 +43,45 @@ namespace Zenith
         }
 
         #region Inject&Execute
-        private async void InjectBtnAsync(object sender, EventArgs e)
+        private void InjectBtnAsync(object sender, EventArgs e)
         {
-            await PerformInjectionAsync();
-        }
+            bool _Inject = false;
+            foreach (Util.ProcInfo pinfo in Util.openProcessesByName("RobloxPlayerBeta.exe"))
+            {
+                if (WindowsPlayer.isInjected())
+                {
+                    continue;
+                }
 
-        private async Task PerformInjectionAsync()
-        {
-            _BF.StartFileSystemAPI();
-            await Task.Delay(1000);
-            _BF.Inject();
+                InjectionStatus injectionStatus = WindowsPlayer.injectPlayer(pinfo);
+                switch (injectionStatus)
+                {
+                    case InjectionStatus.SUCCESS:
+                        _Inject = true;
+                        MessageBox.Show("Celery injected");
+                        Thread.Sleep(1000);
+                        break;
+                    case InjectionStatus.ALREADY_INJECTING:
+                        Thread.Sleep(250);
+                        break;
+                    case InjectionStatus.FAILED:
+                        MessageBox.Show("Injection failed! Unknown error.");
+                        break;
+                    case InjectionStatus.FAILED_ADMINISTRATOR_ACCESS:
+                        MessageBox.Show("Please run CeleryLauncher.exe as an administrator");
+                        break;
+                }
+            }
+
+            if (!_Inject)
+            {
+                MessageBox.Show("Please use Roblox web client");
+            }
         }
 
         private void ExecuteBtn(object sender, EventArgs e)
         {
-            _BF.execute(fastColoredTextBox1.Text);
+            WindowsPlayer.sendScript(fastColoredTextBox1.Text);
         }
 
         #endregion
