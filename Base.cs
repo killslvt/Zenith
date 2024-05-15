@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -84,18 +85,19 @@ namespace Zenith
 
         private void ExecuteBtn(object sender, EventArgs e)
         {
-            if (fastColoredTextBox1.Text == "Dex()")
+            Dictionary<string, string> scriptDictionary = new Dictionary<string, string>()
             {
-                WindowsPlayer.sendScript("loadstring(game:HttpGet('https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/scripts/dexv2.lua'))()");
-            } 
-            else if (fastColoredTextBox1.Text == "InfYield()")
+                { "Dex()", "https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/scripts/dexv2.lua" },
+                { "InfYield()", "https://raw.githubusercontent.com/byteveil/celery-compatible-scripts/main/scripts/caesar-admin.lua" },
+                { "Esp()", "https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/scripts/unnamedesp.lua" },
+                { "BallSpin()", "https://raw.githubusercontent.com/killslvt/Zenith/master/Scripts/ballspin.lua" },
+                { "InfJump()", "https://raw.githubusercontent.com/killslvt/Zenith/master/Scripts/infjump.lua" }
+            };
+
+            if (scriptDictionary.TryGetValue(fastColoredTextBox1.Text, out string scriptUrl))
             {
-                WindowsPlayer.sendScript("loadstring(game:HttpGet('https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/scripts/infyield.lua'))()");
-            } 
-            else if (fastColoredTextBox1.Text == "Esp()")
-            {
-                WindowsPlayer.sendScript("loadstring(game:HttpGet('https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/scripts/unnamedesp.lua'))()");
-            } 
+                WindowsPlayer.sendScript($"loadstring(game:HttpGet('{scriptUrl}'))()");
+            }
             else
             {
                 WindowsPlayer.sendScript(fastColoredTextBox1.Text);
