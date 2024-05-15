@@ -54,7 +54,7 @@ namespace Zenith
                     if (injectionStatus == InjectionStatus.SUCCESS)
                     {
                         _Inject = true;
-                        MessageBox.Show("Celery injected");
+                        MessageBox.Show("Zenith injected");
                         Thread.Sleep(1000);
                     }
                     else if (injectionStatus == InjectionStatus.ALREADY_INJECTING)
