@@ -48,28 +48,31 @@ namespace Zenith
             bool _Inject = false;
             foreach (Util.ProcInfo pinfo in Util.openProcessesByName("RobloxPlayerBeta.exe"))
             {
-                if (WindowsPlayer.isInjected())
+                if (!WindowsPlayer.isInjected())
                 {
-                    continue;
-                }
-
-                InjectionStatus injectionStatus = WindowsPlayer.injectPlayer(pinfo);
-                switch (injectionStatus)
-                {
-                    case InjectionStatus.SUCCESS:
+                    InjectionStatus injectionStatus = WindowsPlayer.injectPlayer(pinfo);
+                    if (injectionStatus == InjectionStatus.SUCCESS)
+                    {
                         _Inject = true;
                         MessageBox.Show("Celery injected");
                         Thread.Sleep(1000);
-                        break;
-                    case InjectionStatus.ALREADY_INJECTING:
+                    }
+                    else if (injectionStatus == InjectionStatus.ALREADY_INJECTING)
+                    {
                         Thread.Sleep(250);
-                        break;
-                    case InjectionStatus.FAILED:
+                    }
+                    else if (injectionStatus == InjectionStatus.FAILED)
+                    {
                         MessageBox.Show("Injection failed! Unknown error.");
-                        break;
-                    case InjectionStatus.FAILED_ADMINISTRATOR_ACCESS:
+                    }
+                    else if (injectionStatus == InjectionStatus.FAILED_ADMINISTRATOR_ACCESS)
+                    {
                         MessageBox.Show("Please run CeleryLauncher.exe as an administrator");
-                        break;
+                    }
+                }
+                else
+                {
+                    WindowsPlayer.injectPlayer(pinfo);
                 }
             }
 
@@ -81,7 +84,22 @@ namespace Zenith
 
         private void ExecuteBtn(object sender, EventArgs e)
         {
-            WindowsPlayer.sendScript(fastColoredTextBox1.Text);
+            if (fastColoredTextBox1.Text == "Dex()")
+            {
+                WindowsPlayer.sendScript("loadstring(game:HttpGet('https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/scripts/dexv2.lua'))()");
+            } 
+            else if (fastColoredTextBox1.Text == "InfYield()")
+            {
+                WindowsPlayer.sendScript("loadstring(game:HttpGet('https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/scripts/infyield.lua'))()");
+            } 
+            else if (fastColoredTextBox1.Text == "Esp()")
+            {
+                WindowsPlayer.sendScript("loadstring(game:HttpGet('https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/scripts/unnamedesp.lua'))()");
+            } 
+            else
+            {
+                WindowsPlayer.sendScript(fastColoredTextBox1.Text);
+            }
         }
 
         #endregion
@@ -130,5 +148,10 @@ namespace Zenith
             }
         }
         #endregion
+
+        private void fastColoredTextBox1_Load(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

@@ -68,6 +68,7 @@
             this.fastColoredTextBox1.CommentPrefix = "--";
             this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBox1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBox1.ForeColor = System.Drawing.Color.White;
             this.fastColoredTextBox1.IndentBackColor = System.Drawing.Color.Transparent;
             this.fastColoredTextBox1.IsReplaceMode = false;
@@ -87,6 +88,7 @@
             this.fastColoredTextBox1.TabIndex = 0;
             this.fastColoredTextBox1.Text = "print(\"Zenith | By ilycross\")";
             this.fastColoredTextBox1.Zoom = 100;
+            this.fastColoredTextBox1.Load += new System.EventHandler(this.fastColoredTextBox1_Load);
             // 
             // button1
             // 
