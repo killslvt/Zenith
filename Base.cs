@@ -88,7 +88,7 @@ namespace Zenith
             Dictionary<string, string> scriptDictionary = new Dictionary<string, string>()
             {
                 { "Dex()", "https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/scripts/dexv2.lua" },
-                { "InfYield()", "https://raw.githubusercontent.com/killslvt/Zenith/master/Scripts/infyeild.lua" },
+                { "InfYield()", "https://raw.githubusercontent.com/killslvt/Zenith/master/Scripts/infyield.lua" },
                 { "Esp()", "https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/scripts/unnamedesp.lua" },
                 { "BallSpin()", "https://raw.githubusercontent.com/killslvt/Zenith/master/Scripts/ballspin.lua" },
                 { "InfJump()", "https://raw.githubusercontent.com/killslvt/Zenith/master/Scripts/infjump.lua" }
