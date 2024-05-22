@@ -24,14 +24,6 @@ namespace Zenith
 
     public partial class Base : Form
     {
-        //Temp
-        [DllImport("XcHvYYrNa.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern bool inject();
-
-        [DllImport("XcHvYYrNa.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern void executeScript([MarshalAs(UnmanagedType.LPStr)] string source);
-
-
         Point lastPoint;
 
 
@@ -58,14 +50,13 @@ namespace Zenith
             {
                 float halfBorderThickness = borderThickness / 2;
 
-                // Adjusted to ensure the border is not clipped at the bottom
                 path.AddArc(new RectangleF(halfBorderThickness, halfBorderThickness, borderRadius, borderRadius), 180, 90);
-                path.AddArc(new RectangleF(this.Width - borderRadius - 1 - halfBorderThickness, halfBorderThickness, borderRadius, borderRadius), 270, 90);
-                path.AddArc(new RectangleF(this.Width - borderRadius - 1 - halfBorderThickness, this.Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 0, 90);
-                path.AddArc(new RectangleF(halfBorderThickness, this.Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 90, 90);
+                path.AddArc(new RectangleF(Width - borderRadius - 1 - halfBorderThickness, halfBorderThickness, borderRadius, borderRadius), 270, 90);
+                path.AddArc(new RectangleF(Width - borderRadius - 1 - halfBorderThickness, Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 0, 90);
+                path.AddArc(new RectangleF(halfBorderThickness, Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 90, 90);
                 path.CloseFigure();
 
-                this.Region = new Region(path);
+                Region = new Region(path);
 
                 using (Pen pen = new Pen(borderColor, borderThickness))
                 {
@@ -78,7 +69,7 @@ namespace Zenith
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            this.Invalidate();
+            Invalidate();
         }
 
         private const int WM_NCHITTEST = 0x84;
@@ -98,56 +89,48 @@ namespace Zenith
         #region Inject&Execute
         private void InjectBtnAsync(object sender, EventArgs e)
         {
-            /* bool _Inject = false;
-             foreach (Util.ProcInfo pinfo in Util.openProcessesByName("RobloxPlayerBeta.exe"))
-             {
-                 if (!WindowsPlayer.isInjected())
-                 {
-                     InjectionStatus injectionStatus = WindowsPlayer.injectPlayer(pinfo);
-                     if (injectionStatus == InjectionStatus.SUCCESS)
-                     {
-                         _Inject = true;
-                         MessageBox.Show("Zenith injected");
-                         AppendMsg(richTextBox1, Color.Green, $"Succssfully Injected", true);
-                         Thread.Sleep(1000);
-
-                     }
-                     else if (injectionStatus == InjectionStatus.ALREADY_INJECTING)
-                     {
-                         Thread.Sleep(250);
-                         AppendMsg(richTextBox1, Color.Orange, $"Already Injected", true);
-                     }
-                     else if (injectionStatus == InjectionStatus.FAILED)
-                     {
-                         MessageBox.Show("Injection failed! Unknown error.");
-                         AppendMsg(richTextBox1, Color.Red, $"Injection failed! Unknown error", true);
-
-                     }
-                     else if (injectionStatus == InjectionStatus.FAILED_ADMINISTRATOR_ACCESS)
-                     {
-                         MessageBox.Show("Please run CeleryInject.exe as an administrator");
-                         AppendMsg(richTextBox1, Color.Red, $"Please run CeleryInject.exe as an administrator", true);
-
-                     }
-                 }
-                 else
-                 {
-                     WindowsPlayer.injectPlayer(pinfo);
-                 }
-             }
-
-             if (!_Inject)
-             {
-                 MessageBox.Show("Please use Roblox web client");
-                 AppendMsg(richTextBox1, Color.Red, $"Please use Roblox web client", true);
-             }*/
-            try
+            bool _Inject = false;
+            foreach (Util.ProcInfo pinfo in Util.openProcessesByName("RobloxPlayerBeta.exe"))
             {
-                inject();
+                if (!WindowsPlayer.isInjected())
+                {
+                    InjectionStatus injectionStatus = WindowsPlayer.injectPlayer(pinfo);
+                    if (injectionStatus == InjectionStatus.SUCCESS)
+                    {
+                        _Inject = true;
+                        MessageBox.Show("Zenith injected");
+                        AppendMsg(richTextBox1, Color.Green, $"Succssfully Injected", true);
+                        Thread.Sleep(1000);
+
+                    }
+                    else if (injectionStatus == InjectionStatus.ALREADY_INJECTING)
+                    {
+                        Thread.Sleep(250);
+                        AppendMsg(richTextBox1, Color.Orange, $"Already Injected", true);
+                    }
+                    else if (injectionStatus == InjectionStatus.FAILED)
+                    {
+                        MessageBox.Show("Injection failed! Unknown error.");
+                        AppendMsg(richTextBox1, Color.Red, $"Injection failed! Unknown error", true);
+
+                    }
+                    else if (injectionStatus == InjectionStatus.FAILED_ADMINISTRATOR_ACCESS)
+                    {
+                        MessageBox.Show("Please run CeleryInject.exe as an administrator");
+                        AppendMsg(richTextBox1, Color.Red, $"Please run CeleryInject.exe as an administrator", true);
+
+                    }
+                }
+                else
+                {
+                    WindowsPlayer.injectPlayer(pinfo);
+                }
             }
-            catch (Exception ex)
+
+            if (!_Inject)
             {
-                MessageBox.Show("Exception: " + ex.Message, "Error");
+                MessageBox.Show("Please use Roblox web client");
+                AppendMsg(richTextBox1, Color.Red, $"Please use Roblox web client", true);
             }
         }
 
@@ -164,14 +147,12 @@ namespace Zenith
 
             if (scriptDictionary.TryGetValue(fastColoredTextBox1.Text, out string scriptUrl))
             {
-                //WindowsPlayer.sendScript($"loadstring(game:HttpGet('{scriptUrl}'))()");
-                executeScript($"loadstring(game:HttpGet('{scriptUrl}'))()");
+                WindowsPlayer.sendScript($"loadstring(game:HttpGet('{scriptUrl}'))()");
                 AppendMsg(richTextBox1, Color.Green, $"Succssfully Executed {scriptUrl}", true);
             }
             else
             {
-                //WindowsPlayer.sendScript(fastColoredTextBox1.Text);
-                executeScript(fastColoredTextBox1.Text);
+                WindowsPlayer.sendScript(fastColoredTextBox1.Text);
                 AppendMsg(richTextBox1, Color.Green, $"Succssfully Executed", true);
             }
         }

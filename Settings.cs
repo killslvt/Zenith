@@ -27,8 +27,8 @@ namespace Zenith
         public Settings()
         {
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.None;
+            DoubleBuffered = true;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -43,14 +43,13 @@ namespace Zenith
             {
                 float halfBorderThickness = borderThickness / 2;
 
-                // Adjusted to ensure the border is not clipped at the bottom
                 path.AddArc(new RectangleF(halfBorderThickness, halfBorderThickness, borderRadius, borderRadius), 180, 90);
-                path.AddArc(new RectangleF(this.Width - borderRadius - 1 - halfBorderThickness, halfBorderThickness, borderRadius, borderRadius), 270, 90);
-                path.AddArc(new RectangleF(this.Width - borderRadius - 1 - halfBorderThickness, this.Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 0, 90);
-                path.AddArc(new RectangleF(halfBorderThickness, this.Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 90, 90);
+                path.AddArc(new RectangleF(Width - borderRadius - 1 - halfBorderThickness, halfBorderThickness, borderRadius, borderRadius), 270, 90);
+                path.AddArc(new RectangleF(Width - borderRadius - 1 - halfBorderThickness, Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 0, 90);
+                path.AddArc(new RectangleF(halfBorderThickness, Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 90, 90);
                 path.CloseFigure();
 
-                this.Region = new Region(path);
+                Region = new Region(path);
 
                 using (Pen pen = new Pen(borderColor, borderThickness))
                 {
@@ -63,7 +62,7 @@ namespace Zenith
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            this.Invalidate();
+            Invalidate();
         }
 
         private const int WM_NCHITTEST = 0x84;
