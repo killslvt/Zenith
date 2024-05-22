@@ -1,13 +1,16 @@
-﻿using System;
+﻿using DiscordRpcDemo;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Zenith.Injector;
+using Zenith.RPC;
 
 namespace Zenith
 {
@@ -21,26 +24,64 @@ namespace Zenith
         [DllImport("kernel32.dll")]
         private static extern bool FreeConsole();
 
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-           int nLeftRect,
-           int nTopRect,
-           int nRightRect,
-           int nBottomRect,
-           int nWidthEllipse,
-           int nHeightEllipse
-        );
-
         public Settings()
         {
             InitializeComponent();
-            FormBorderStyle = FormBorderStyle.None;
-            Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.DoubleBuffered = true;
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            int borderRadius = 20;
+            float borderThickness = 3f;
+            Color borderColor = Color.Purple;
+
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                float halfBorderThickness = borderThickness / 2;
+
+                // Adjusted to ensure the border is not clipped at the bottom
+                path.AddArc(new RectangleF(halfBorderThickness, halfBorderThickness, borderRadius, borderRadius), 180, 90);
+                path.AddArc(new RectangleF(this.Width - borderRadius - 1 - halfBorderThickness, halfBorderThickness, borderRadius, borderRadius), 270, 90);
+                path.AddArc(new RectangleF(this.Width - borderRadius - 1 - halfBorderThickness, this.Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 0, 90);
+                path.AddArc(new RectangleF(halfBorderThickness, this.Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 90, 90);
+                path.CloseFigure();
+
+                this.Region = new Region(path);
+
+                using (Pen pen = new Pen(borderColor, borderThickness))
+                {
+                    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    e.Graphics.DrawPath(pen, path);
+                }
+            }
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            this.Invalidate();
+        }
+
+        private const int WM_NCHITTEST = 0x84;
+        private const int HTCLIENT = 0x1;
+        private const int HTCAPTION = 0x2;
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+
+            if (m.Msg == WM_NCHITTEST && (int)m.Result == HTCLIENT)
+            {
+                m.Result = (IntPtr)HTCAPTION;
+            }
         }
 
         #region Settings
-       
+
 
         #endregion
 
@@ -99,19 +140,18 @@ namespace Zenith
             
         }
 
-
-        private void consoleToggle_Click(object sender, EventArgs e)
+        private void rpcToggle_Click(object sender, EventArgs e)
         {
-            Base consoleInstance = new Base();
-            if (consoletoggle.Checked)
+            if (rpctoggle.Checked)
             {
-                consoleInstance.isConsoleOpen = true;
-                consoleInstance.OpenConsole();
+                rpcstart.isEnabled = true;
+                var RPC = new rpcstart();
+                RPC.DiscordRPC();
             }
             else
             {
-                consoleInstance.isConsoleOpen = false;
-                consoleInstance.CloseConsole();
+                rpcstart.isEnabled = false;
+                DiscordRpc.Shutdown();
             }
         }
     }

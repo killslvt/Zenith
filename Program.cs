@@ -22,6 +22,8 @@ namespace Zenith
             Application.Run(new Base());
         }
 
+        public static string version = "1.0.2";
+
         static void CeleryFix()
         {
             string userName = Environment.UserName;

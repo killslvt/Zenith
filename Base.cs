@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -23,139 +24,130 @@ namespace Zenith
 
     public partial class Base : Form
     {
+        //Temp
+        [DllImport("XcHvYYrNa.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool inject();
+
+        [DllImport("XcHvYYrNa.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern void executeScript([MarshalAs(UnmanagedType.LPStr)] string source);
+
+
         Point lastPoint;
 
 
         Settings ToggleSettings = new Settings();
         public static bool SettingsShown = false;
 
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-           int nLeftRect,
-           int nTopRect,
-           int nRightRect,
-           int nBottomRect,
-           int nWidthEllipse,
-           int nHeightEllipse
-        );
 
         public Base()
         {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
-            Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+            DoubleBuffered = true;
         }
 
-        #region Console
-        public bool isConsoleOpen = false;
-        private ConsoleColor savedColor;
-
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("kernel32.dll")]
-        private static extern bool FreeConsole();
-
-        public void OpenConsole()
+        protected override void OnPaint(PaintEventArgs e)
         {
-            AllocConsole();
-            Console.Title = "Zenith v1.0.1";
-            Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
-            Console.SetError(new StreamWriter(Console.OpenStandardError()) { AutoFlush = true });
-            Console.OutputEncoding = Encoding.UTF8;
+            base.OnPaint(e);
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(
-                "══════════════════════════════════════════════════════════════════════════════════\n" +
-                "░▒▓████████▓▒░ ░▒▓████████▓▒░ ░▒▓███████▓▒░  ░▒▓█▓▒░ ░▒▓████████▓▒░ ░▒▓█▓▒░░▒▓█▓▒░\n" +
-                "       ░▒▓█▓▒░ ░▒▓█▓▒░        ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░    ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░\n" +
-                "     ░▒▓██▓▒░  ░▒▓█▓▒░        ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░    ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░\n" +
-                "    ▒▓██▓▒░    ░▒▓██████▓▒░   ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░    ░▒▓█▓▒░     ░▒▓████████▓▒░\n" +
-                " ░▒▓██▓▒░      ░▒▓█▓▒░        ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░    ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░\n" +
-                "░▒▓█▓▒░        ░▒▓█▓▒░        ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░    ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░\n" +
-                "░▒▓████████▓▒░ ░▒▓████████▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░    ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░\n" +
-                "══════════════════════════════════════════════════════════════════════════════════\n" +
-                "                                  Made By ilycross                                \n\n");
-            Console.ResetColor();
+            int borderRadius = 20;
+            float borderThickness = 3f;
+            Color borderColor = Color.Purple;
+
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                float halfBorderThickness = borderThickness / 2;
+
+                // Adjusted to ensure the border is not clipped at the bottom
+                path.AddArc(new RectangleF(halfBorderThickness, halfBorderThickness, borderRadius, borderRadius), 180, 90);
+                path.AddArc(new RectangleF(this.Width - borderRadius - 1 - halfBorderThickness, halfBorderThickness, borderRadius, borderRadius), 270, 90);
+                path.AddArc(new RectangleF(this.Width - borderRadius - 1 - halfBorderThickness, this.Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 0, 90);
+                path.AddArc(new RectangleF(halfBorderThickness, this.Height - borderRadius - 1 - halfBorderThickness, borderRadius, borderRadius), 90, 90);
+                path.CloseFigure();
+
+                this.Region = new Region(path);
+
+                using (Pen pen = new Pen(borderColor, borderThickness))
+                {
+                    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    e.Graphics.DrawPath(pen, path);
+                }
+            }
         }
 
-        public void CloseConsole()
+        protected override void OnResize(EventArgs e)
         {
-            Console.Clear();
-
-            FreeConsole();
-
-            Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
-            Console.SetError(new StreamWriter(Console.OpenStandardError()) { AutoFlush = true });
-            isConsoleOpen = false;
+            base.OnResize(e);
+            this.Invalidate();
         }
 
-        [DllImport("kernel32.dll")]
-        private static extern bool AllocConsole();
+        private const int WM_NCHITTEST = 0x84;
+        private const int HTCLIENT = 0x1;
+        private const int HTCAPTION = 0x2;
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetConsoleWindow();
-        #endregion
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+
+            if (m.Msg == WM_NCHITTEST && (int)m.Result == HTCLIENT)
+            {
+                m.Result = (IntPtr)HTCAPTION;
+            }
+        }
 
         #region Inject&Execute
         private void InjectBtnAsync(object sender, EventArgs e)
         {
-            bool _Inject = false;
-            foreach (Util.ProcInfo pinfo in Util.openProcessesByName("RobloxPlayerBeta.exe"))
-            {
-                if (!WindowsPlayer.isInjected())
-                {
-                    InjectionStatus injectionStatus = WindowsPlayer.injectPlayer(pinfo);
-                    if (injectionStatus == InjectionStatus.SUCCESS)
-                    {
-                        _Inject = true;
-                        MessageBox.Show("Zenith injected");
-                        Thread.Sleep(1000);
-                        if(isConsoleOpen == true)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine($"[ + ] ~ Successfully Injected");
-                            Console.ResetColor();
-                        }
-                    }
-                    else if (injectionStatus == InjectionStatus.ALREADY_INJECTING)
-                    {
-                        Thread.Sleep(250);
-                    }
-                    else if (injectionStatus == InjectionStatus.FAILED)
-                    {
-                        MessageBox.Show("Injection failed! Unknown error.");
-                        if (isConsoleOpen == true)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"[ - ] ~ Injection failed");
-                            Console.ResetColor();
-                        }
-                    }
-                    else if (injectionStatus == InjectionStatus.FAILED_ADMINISTRATOR_ACCESS)
-                    {
-                        MessageBox.Show("Please run CeleryInject.exe as an administrator");
-                        if (isConsoleOpen == true)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"[ - ] ~ Failed: Please Run CeleryInject.exe");
-                            Console.ResetColor();
-                        }
-                    }
-                }
-                else
-                {
-                    WindowsPlayer.injectPlayer(pinfo);
-                }
-            }
+            /* bool _Inject = false;
+             foreach (Util.ProcInfo pinfo in Util.openProcessesByName("RobloxPlayerBeta.exe"))
+             {
+                 if (!WindowsPlayer.isInjected())
+                 {
+                     InjectionStatus injectionStatus = WindowsPlayer.injectPlayer(pinfo);
+                     if (injectionStatus == InjectionStatus.SUCCESS)
+                     {
+                         _Inject = true;
+                         MessageBox.Show("Zenith injected");
+                         AppendMsg(richTextBox1, Color.Green, $"Succssfully Injected", true);
+                         Thread.Sleep(1000);
 
-            if (!_Inject)
+                     }
+                     else if (injectionStatus == InjectionStatus.ALREADY_INJECTING)
+                     {
+                         Thread.Sleep(250);
+                         AppendMsg(richTextBox1, Color.Orange, $"Already Injected", true);
+                     }
+                     else if (injectionStatus == InjectionStatus.FAILED)
+                     {
+                         MessageBox.Show("Injection failed! Unknown error.");
+                         AppendMsg(richTextBox1, Color.Red, $"Injection failed! Unknown error", true);
+
+                     }
+                     else if (injectionStatus == InjectionStatus.FAILED_ADMINISTRATOR_ACCESS)
+                     {
+                         MessageBox.Show("Please run CeleryInject.exe as an administrator");
+                         AppendMsg(richTextBox1, Color.Red, $"Please run CeleryInject.exe as an administrator", true);
+
+                     }
+                 }
+                 else
+                 {
+                     WindowsPlayer.injectPlayer(pinfo);
+                 }
+             }
+
+             if (!_Inject)
+             {
+                 MessageBox.Show("Please use Roblox web client");
+                 AppendMsg(richTextBox1, Color.Red, $"Please use Roblox web client", true);
+             }*/
+            try
             {
-                MessageBox.Show("Please use Roblox web client");
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"[ - ] ~ Failed: Please Run Roblox Web Client");
-                Console.ResetColor();
+                inject();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message, "Error");
             }
         }
 
@@ -172,31 +164,50 @@ namespace Zenith
 
             if (scriptDictionary.TryGetValue(fastColoredTextBox1.Text, out string scriptUrl))
             {
-                WindowsPlayer.sendScript($"loadstring(game:HttpGet('{scriptUrl}'))()");
+                //WindowsPlayer.sendScript($"loadstring(game:HttpGet('{scriptUrl}'))()");
+                executeScript($"loadstring(game:HttpGet('{scriptUrl}'))()");
+                AppendMsg(richTextBox1, Color.Green, $"Succssfully Executed {scriptUrl}", true);
             }
             else
             {
-                WindowsPlayer.sendScript(fastColoredTextBox1.Text);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"[ + ] ~ Succssfully Executed");
-                Console.ResetColor();
+                //WindowsPlayer.sendScript(fastColoredTextBox1.Text);
+                executeScript(fastColoredTextBox1.Text);
+                AppendMsg(richTextBox1, Color.Green, $"Succssfully Executed", true);
             }
         }
 
         #endregion
 
         #region Ect
+        public static void AppendMsg(RichTextBox rtb, Color color, string text, bool autoTime)
+        {
+            rtb.BeginInvoke(new ThreadStart(() =>
+            {
+                lock (rtb)
+                {
+                    rtb.Focus();
+                    if (rtb.TextLength > 100000) rtb.Clear();
+
+                    var temp = new RichTextBox();
+                    temp.SelectionColor = color;
+                    if (autoTime)
+                        temp.AppendText(DateTime.Now.ToString($"[HH:mm:ss] " + "[Z] - "));
+                    temp.AppendText(text);
+                    rtb.Select(rtb.Rtf.Length, 0);
+                    rtb.SelectedRtf = temp.Rtf;
+                }
+            }));
+        }
+
         private void ClearBtn(object sender, EventArgs e)
         {
             fastColoredTextBox1.Clear();
-            Console.Clear();
+            richTextBox1.Clear();
+            AppendMsg(richTextBox1, Color.White, $"Cleared Script & Console Log", true);
         }
 
         private void FolderBtn(object sender, EventArgs e)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"[ + ] ~ Please Select A File");
-            Console.ResetColor();
             var openFileDialog1 = new OpenFileDialog
             {
                 InitialDirectory = Application.ExecutablePath,
@@ -206,9 +217,7 @@ namespace Zenith
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 fastColoredTextBox1.Text = File.ReadAllText(openFileDialog1.FileName);
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine($"[ Selected ] ~ {openFileDialog1.FileName}");
-                Console.ResetColor();
+                AppendMsg(richTextBox1, Color.White, $"Opening {openFileDialog1.FileName}", true);
             }
         }
 
@@ -218,25 +227,16 @@ namespace Zenith
 
             foreach (Process process in processes)
             {
-                try
-                {
-                    process.Kill();
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"[ + ] ~ Succssfully Killed Roblox");
-                    Console.ResetColor();
-                }
-                catch (Exception ex)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"[ - ] ~ Failed To Kill Roblox {ex}");
-                    Console.ResetColor();
-                }
+                process.Kill();
             }
+
+            AppendMsg(richTextBox1, Color.Red, $"Killing Roblox", true);
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
             infSettings_Click(sender, e);
+            AppendMsg(richTextBox1, Color.White, $"Opening Settings", true);
         }
 
         private void infSettings_Click(object sender, EventArgs e)
@@ -246,10 +246,6 @@ namespace Zenith
                 AddOwnedForm(ToggleSettings);
                 ToggleSettings.Show();
                 ToggleSettings.BringToFront();
-                ToggleSettings.Location = Cursor.Position;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"[ + ] ~ Opening Settings");
-                Console.ResetColor();
             }
             else
             {
@@ -285,6 +281,23 @@ namespace Zenith
         private void fastColoredTextBox1_Load(object sender, EventArgs e)
         {
             
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://discord.gg/pMAsDK4Z9d");
+        }
+
+        private void topmosttoggle_Click(object sender, EventArgs e)
+        {
+            if (topmosttoggle.Checked)
+            {
+                TopMost = true;
+            }
+            else
+            {
+                TopMost = false;
+            }
         }
     }
 }

@@ -55,6 +55,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RPC\DiscordRPC.cs" />
+    <Compile Include="RPC\rpcstart.cs" />
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
     </Compile>
