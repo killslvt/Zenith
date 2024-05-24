@@ -37,8 +37,6 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.discord_rpc = new System.Windows.Forms.Label();
             this.topmosttoggle = new Guna.UI2.WinForms.Guna2CustomCheckBox();
@@ -49,6 +47,8 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -79,6 +79,7 @@
             this.fastColoredTextBox1.CommentPrefix = "--";
             this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBox1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBox1.ForeColor = System.Drawing.Color.White;
             this.fastColoredTextBox1.IndentBackColor = System.Drawing.Color.Transparent;
             this.fastColoredTextBox1.IsReplaceMode = false;
@@ -98,7 +99,7 @@
             this.fastColoredTextBox1.ShowFoldingLines = true;
             this.fastColoredTextBox1.Size = new System.Drawing.Size(674, 249);
             this.fastColoredTextBox1.TabIndex = 0;
-            this.fastColoredTextBox1.Text = "print(\"Zenith | By ilycross\")";
+            this.fastColoredTextBox1.Text = "print(\"Evolve | By ilycross\")";
             this.fastColoredTextBox1.TextAreaBorder = FastColoredTextBoxNS.TextAreaBorderType.Single;
             this.fastColoredTextBox1.Zoom = 100;
             this.fastColoredTextBox1.Load += new System.EventHandler(this.fastColoredTextBox1_Load);
@@ -189,33 +190,11 @@
             this.button6.UseVisualStyleBackColor = false;
             this.button6.Click += new System.EventHandler(this.FolderBtn);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Black;
-            this.label1.Font = new System.Drawing.Font("Facon", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Purple;
-            this.label1.Location = new System.Drawing.Point(14, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 33);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Z";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Black;
-            this.label2.ForeColor = System.Drawing.Color.Purple;
-            this.label2.Location = new System.Drawing.Point(40, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(37, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "v1.0.2";
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.panel6);
             this.panel1.Controls.Add(this.discord_rpc);
             this.panel1.Controls.Add(this.topmosttoggle);
             this.panel1.Controls.Add(this.button2);
@@ -345,6 +324,27 @@
             this.richTextBox1.TabIndex = 15;
             this.richTextBox1.Text = "";
             // 
+            // panel6
+            // 
+            this.panel6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel6.BackgroundImage")));
+            this.panel6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel6.Location = new System.Drawing.Point(-1, 3);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(58, 50);
+            this.panel6.TabIndex = 37;
+            this.panel6.Click += new System.EventHandler(this.panel6_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Facon", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Purple;
+            this.label1.Location = new System.Drawing.Point(260, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(222, 29);
+            this.label1.TabIndex = 38;
+            this.label1.Text = "Evolve Engine";
+            // 
             // Base
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -355,8 +355,6 @@
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.fastColoredTextBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
@@ -365,14 +363,13 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Base";
-            this.Text = "Zenith v1.0.2";
+            this.Text = "Evolve v1.0.2";
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -385,8 +382,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button7;
@@ -397,6 +392,8 @@
         private System.Windows.Forms.Label discord_rpc;
         private Guna.UI2.WinForms.Guna2CustomCheckBox topmosttoggle;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label label1;
     }
 }
 

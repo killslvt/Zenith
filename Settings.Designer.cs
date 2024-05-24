@@ -31,12 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.discord_rpc = new System.Windows.Forms.Label();
             this.rpctoggle = new Guna.UI2.WinForms.Guna2CustomCheckBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.panel6 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,32 +69,10 @@
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Black;
-            this.label1.Font = new System.Drawing.Font("Facon", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Purple;
-            this.label1.Location = new System.Drawing.Point(15, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 33);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Zenith";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Black;
-            this.label2.ForeColor = System.Drawing.Color.Purple;
-            this.label2.Location = new System.Drawing.Point(132, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(37, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "v1.0.1";
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.panel6);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button4);
             this.panel1.Location = new System.Drawing.Point(1, -5);
@@ -145,6 +122,15 @@
             this.panel4.Size = new System.Drawing.Size(367, 2);
             this.panel4.TabIndex = 36;
             // 
+            // panel6
+            // 
+            this.panel6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel6.BackgroundImage")));
+            this.panel6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel6.Location = new System.Drawing.Point(3, 1);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(58, 50);
+            this.panel6.TabIndex = 38;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -155,13 +141,11 @@
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.discord_rpc);
             this.Controls.Add(this.rpctoggle);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
-            this.Text = "Form1";
+            this.Text = "Settings";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -171,12 +155,11 @@
         #endregion
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label discord_rpc;
         private Guna.UI2.WinForms.Guna2CustomCheckBox rpctoggle;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel panel6;
     }
 }
 

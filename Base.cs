@@ -172,12 +172,29 @@ namespace Zenith
                     var temp = new RichTextBox();
                     temp.SelectionColor = color;
                     if (autoTime)
-                        temp.AppendText(DateTime.Now.ToString($"[HH:mm:ss] " + "[Z] - "));
+                        temp.AppendText(DateTime.Now.ToString($"[HH:mm:ss] " + "[EE] - "));
                     temp.AppendText(text);
                     rtb.Select(rtb.Rtf.Length, 0);
                     rtb.SelectedRtf = temp.Rtf;
                 }
             }));
+        }
+
+        private void topmosttoggle_Click(object sender, EventArgs e)
+        {
+            if (topmosttoggle.Checked)
+            {
+                TopMost = true;
+            }
+            else
+            {
+                TopMost = false;
+            }
+        }
+
+        private void panel6_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://discord.gg/pMAsDK4Z9d");
         }
 
         private void ClearBtn(object sender, EventArgs e)
@@ -262,23 +279,6 @@ namespace Zenith
         private void fastColoredTextBox1_Load(object sender, EventArgs e)
         {
             
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://discord.gg/pMAsDK4Z9d");
-        }
-
-        private void topmosttoggle_Click(object sender, EventArgs e)
-        {
-            if (topmosttoggle.Checked)
-            {
-                TopMost = true;
-            }
-            else
-            {
-                TopMost = false;
-            }
         }
     }
 }
