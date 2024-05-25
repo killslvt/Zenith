@@ -19,7 +19,7 @@ namespace Zenith
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             CeleryFix(); //For the (cant find myfile) error
-            Application.Run(new Base());
+            Application.Run(new StartUp());
         }
 
         public static string version = "1.0.2";
