@@ -4,4 +4,4 @@ This is a Byfron Bypass so there always is a chance you may get banned.
 
 My Discord: [Evolve](https://discord.gg/d6fRewZEPb) [Term](https://discord.gg/term) 
  
-Celery Discord: https://discord.gg/celery (I Think)
+Celery Discord: [Celery](https://discord.gg/celery)
